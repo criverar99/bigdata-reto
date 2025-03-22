@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 import requests
+import pymongo
+import psycopg2
+
 
 csv_routes = {
     "sales": "https://raw.githubusercontent.com/criverar99/bigdata-reto/refs/heads/main/Datasets/sales.csv",
@@ -62,6 +65,21 @@ def get_spark_results(url_results):
         data = response.json()
         # Display the response in the app
         st.write(data)
+
+
+# Initialize connection. Uses st.cache_resource to only run once.
+@st.cache_resource
+def init_connection():
+    return pymongo.MongoClient(**st.secrets["mongo"])
+client = init_connection()
+# Pull data from the collection. Uses st.cache_data to only rerun when the query changes or after 10 min.
+@st.cache_data(ttl=600)
+def get_data():
+    db = client.people
+    items = db.people.find()
+    items = list(items)  # make hashable for st.cache_data
+    return items
+
 
 df = cargar_datos()
 
@@ -129,10 +147,15 @@ with tab2:
     if st.button("Obtener resultados"):
         get_spark_results(url_results)
 
-
-
 with tab3:
-    st.write("This is to display the MongoDB data")
+    st.write("Datos insertados en MongoDB")
+    items = get_data()
+    for item in items:
+        st.write(item)
 
 with tab4:
     st.write("This is to display the PostgreSQL data")
+    conn = st.connection("postgresql", type="sql")
+    df = conn.query("SELECT * FROM products")
+    for row in df.iterrtuples():
+        st.write(row)
