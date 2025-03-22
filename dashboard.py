@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import requests
 
 csv_routes = {
     "sales": "https://raw.githubusercontent.com/criverar99/bigdata-reto/refs/heads/main/Datasets/sales.csv",
@@ -116,7 +117,7 @@ with tab2:
     spark_job    =  st.text_input('Spark job', value='spark')
     github_token =  st.text_input('Github token', value='***')
     codeurl =  st.text_input('Github code url', value='https://raw.githubusercontent….')
-    dataseturl =  st.text_input('Github token', value='https://raw.githubusercontent….')
+    dataseturl =  st.text_input('Dataset URL', value='https://raw.githubusercontent….')
 
     if st.button("Activar job"):
         post_spark_job(github_user, github_repo, spark_job, github_token, codeurl, dataseturl)
