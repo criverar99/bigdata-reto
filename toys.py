@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     # Query to get the day with the most sales
     query_most_sales = """
-    SELECT Date, SUM(Units) as total_sales
+    SELECT CAST(Date AS STRING) AS DateWithMostSales, SUM(Units) as total_sales
     FROM sales
     GROUP BY Date
     ORDER BY total_sales DESC
