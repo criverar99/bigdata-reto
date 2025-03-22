@@ -1,5 +1,4 @@
 requests
 pandas
-kafka-python
 pymongo
 psycopg2
