@@ -22,7 +22,6 @@ def cargar_datos():
     df_sales["Total_Cost"] = df_sales["Units"] * df_sales["Product_Cost_Float"]
     df_sales["Total_Profit"] = df_sales["Total_Sales_Value"] - df_sales["Total_Cost"]
     df_sales["Total_Profit_Dollar"] = df_sales["Total_Profit"].apply(lambda x: f"${x:,.2f}")
-    # df_sales.drop(columns=["Product_Price_Float", "Product_Cost_Float", "Total_Sales_Value", "Total_Cost"], inplace=True)
     return df_sales
 
 df = cargar_datos()
@@ -61,7 +60,7 @@ st.write(f"Total ventas: {len(df)}")
 st.dataframe(df.drop(columns=["Product_ID", "Store_ID", "Product_Price_Float", "Product_Cost_Float", "Total_Sales_Value", "Total_Cost", "Total_Profit"]))
 
 # Mostrar total de ventas y de ganancias
-total_ventas = df["Units"].sum()
+total_ventas = df["Total_Sales_Value"].sum()
 total_ganancias = df["Total_Profit"].sum()
 st.write(f"Total de ventas: ${total_ventas:,.2f}")
 st.write(f"Total de ganancias: ${total_ganancias:,.2f}")
