@@ -157,5 +157,5 @@ with tab4:
     st.write("This is to display the PostgreSQL data")
     conn = st.connection("postgresql", type="sql")
     df = conn.query("SELECT * FROM products")
-    for row in df.iterrtuples():
+    for row in df.iterrows():
         st.write(row)
