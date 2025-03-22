@@ -23,6 +23,45 @@ def cargar_datos():
     df_sales["Total_Profit_Dollar"] = df_sales["Total_Profit"].apply(lambda x: f"${x:,.2f}")
     return df_sales
 
+def post_spark_job(user, repo, job, token, codeurl, dataseturl):
+    # Define the API endpoint
+    url = 'https://api.github.com/repos/' + user + '/' + repo + '/dispatches'
+    # Define the data to be sent in the POST request
+    payload = {
+      "event_type": job,
+
+      "client_payload" : {
+        "codeurl" : codeurl,
+        "dataseturl" : dataseturl
+      }
+    }
+
+    headers = {
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-type': 'application/json'
+    }
+
+    st.write(url)
+    st.write(payload)
+    st.write(headers)
+
+    # Make the POST request
+    response = requests.post(url, json=payload, headers=headers)
+
+    # Display the response in the app
+    st.write(response)
+
+def get_spark_results(url_results):
+    # Make the GET request
+    response = requests.get(url_results)
+    st.write(response)
+    # Parse the response
+    if response.status_code == 200:
+        data = response.json()
+        # Display the response in the app
+        st.write(data)
+
 df = cargar_datos()
 
 # Create tabs
@@ -69,7 +108,27 @@ with tab1:
     st.write(f"Total de ganancias: ${total_ganancias:,.2f}")
 
 with tab2:
-    st.write("This is to display the form for the GitHub Actions")
+    st.title("Activando GitHub Actions")
+    st.header("spark-submit Job")
+
+    github_user  =  st.text_input('Github user', value='criverar99')
+    github_repo  =  st.text_input('Github repo', value='bigdata-reto')
+    spark_job    =  st.text_input('Spark job', value='spark')
+    github_token =  st.text_input('Github token', value='***')
+    codeurl =  st.text_input('Github code url', value='https://raw.githubusercontent….')
+    dataseturl =  st.text_input('Github token', value='https://raw.githubusercontent….')
+
+    if st.button("Activar job"):
+        post_spark_job(github_user, github_repo, spark_job, github_token, codeurl, dataseturl)
+
+    st.header("Resultados")
+
+    url_results=  st.text_input('URL de los resultados', value='https://raw.githubusercontent….')
+
+    if st.button("Obtener resultados"):
+        get_spark_results(url_results)
+
+
 
 with tab3:
     st.write("This is to display the MongoDB data")
