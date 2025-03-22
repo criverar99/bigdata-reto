@@ -26,7 +26,7 @@ def cargar_datos():
 df = cargar_datos()
 
 # Create tabs
-tab1, tab2 = st.tabs(["Dashboard", "Other Tab"])
+tab1, tab2, tab3, tab4 = st.tabs(["Dashboard", "Update Data", "MongoDB", "PostgreSQL"])
 
 with tab1:
     # Título del Dashboard
@@ -69,4 +69,10 @@ with tab1:
     st.write(f"Total de ganancias: ${total_ganancias:,.2f}")
 
 with tab2:
-    st.write("This is another tab.")
+    st.write("This is to display the form for the GitHub Actions")
+
+with tab3:
+    st.write("This is to display the MongoDB data")
+
+with tab4:
+    st.write("This is to display the PostgreSQL data")
