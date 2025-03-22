@@ -1,4 +1,4 @@
-requests
-pandas
+kafka-python
 pymongo
-psycopg2
+psycopg2-binary
+sqlalchemy
