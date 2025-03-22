@@ -28,7 +28,7 @@ df = cargar_datos()
 # Create tabs
 tab1, tab2, tab3, tab4 = st.tabs(["Dashboard", "Update Data", "MongoDB", "PostgreSQL"])
 
-with tab1:
+if tab1:
     # Título del Dashboard
     st.title("Mexican Toys Sales Dashboard")
 
@@ -67,6 +67,9 @@ with tab1:
     total_ganancias = df["Total_Profit"].sum()
     st.write(f"Total de ventas: ${total_ventas:,.2f}")
     st.write(f"Total de ganancias: ${total_ganancias:,.2f}")
+
+else:
+    st.sidebar.empty()
 
 with tab2:
     st.write("This is to display the form for the GitHub Actions")
