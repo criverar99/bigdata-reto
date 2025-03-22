@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 import json
+import time
 
 if __name__ == "__main__":
     spark = SparkSession\
@@ -35,10 +36,14 @@ if __name__ == "__main__":
     top_sellers = [row.asDict() for row in df_top_sellers.collect()]
 
     # Combine results into a single JSON object
+
+
     results = {
         "MostSales": most_sales,
-        "TopSellers": top_sellers
+        "TopSellers": top_sellers,
+        "Updated": str(time.time())
     }
+
 
     # Write results to a JSON file
     with open('results/data.json', 'w') as file:
